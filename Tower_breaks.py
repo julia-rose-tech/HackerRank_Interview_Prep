@@ -13,26 +13,22 @@ import sys
 # The function accepts following parameters:
 #  1. INTEGER n = number of towers
 #  2. INTEGER m = height of tower
-#
+
+#All towers always have the same height, so a player can always mirror the move of the other player.
+
+# Therefore, if the number of towers are even, then P2 always have the strategy to mirror the moves made by P1, leaving P1 to loose. If the height of tower is 1, then P1 always lose immediately, so P2 is also the winner.
+
+# If the number of towers are odd, then P1 can reduce a tower to 1, then after P2 makes a move, P1 always mirrors the moves made by P2, leaving P2 to lose. (This includes the case where there is only 1 tower).
+
 number_of_moves_left = 0
 
 def towerBreakers(n, m):
     
-    for i in range(1, m-1):
-        if m % i == 0:
-            factor = i
-            number_of_moves_left = +1
-            result = towerBreakers(factor)
-            print(number_of_moves_left)
-            print(result)
-        if number_of_moves_left*n % 2 != 0:
-            winner = 1
-            break
-        else:
-            winner = 2
-        return(winner)
-    
-                    
+    if m  == 1 or n % 2 == 0:
+        return 2
+    else:
+        return 1
+
 
 if __name__ == '__main__':
    

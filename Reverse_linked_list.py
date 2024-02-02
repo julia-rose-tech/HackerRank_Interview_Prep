@@ -39,15 +39,20 @@ def print_singly_linked_list(node, sep):
         if node:
             print(sep)
 
-def reverse(llist):
+def reverse(current_node):
+    #llist head has been inserted as current node
     prev = None
 
-    while llist is not None:
+    while current_node is not None:
     
-        nxt = llist.next
-        llist.next = prev
-        prev = llist
-        llist = nxt
+        next_node = current_node.next
+        #storing next node
+        current_node.next = prev
+        #chanding next node to previous
+        prev = current_node
+        #updating previous to current node
+        current_node = next_node
+        #moving current node to the next node in the list
     
     return prev
 
@@ -66,9 +71,10 @@ if __name__ == '__main__':
             llist_item = int(input())
             llist.insert_node(llist_item)
 
-        llist1 = reverse(llist.head)
+        llist = reverse(llist.head)
 
-        print_singly_linked_list(llist1, ' ')
+        print_singly_linked_list(llist, ' ')
+        print('\n')
 
 
 

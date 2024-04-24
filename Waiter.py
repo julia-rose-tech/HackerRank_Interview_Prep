@@ -1,26 +1,19 @@
-#!/bin/python3
-
 import math
-import os
-import random
-import re
-import sys
-
-#
-# Complete the 'waiter' function below.
-#
-# The function is expected to return an INTEGER_ARRAY.
-# The function accepts following parameters:
-#  1. INTEGER_ARRAY number
-#  2. INTEGER q
-#
-
 
 def next_prime(n):
+    """
+    Finds the next prime number greater than n.
+
+    Parameters:
+    - n (int): The number for which to find the next prime.
+
+    Returns:
+    - int: The next prime number greater than n.
+    """
     is_prime = False
     n += 1
     while not is_prime:
-        if n !=2 and n % 2 == 0:
+        if n != 2 and n % 2 == 0:
             n += 1
         else:
             j = math.ceil(math.sqrt(n))
@@ -38,52 +31,75 @@ def next_prime(n):
     return n
 
 class Stack:
+    """
+    Implementation of a stack data structure.
+    """
     def __init__(self):
+        """
+        Initializes an empty stack.
+        """
         self.stack = []
 
     def pushCharacter(self, char):
-        self.stack.append(char)
- 
-    def popCharacter(self):
-        char = self.stack.pop() if self.stack else None
-        return (char)
-        
+        """
+        Pushes a character onto the stack.
 
-def waiter(number, q):
-    ith_prime = 2
-    answers = []
-    remainder_stack = Stack()
+        Parameters:
+        - char: The character to be pushed onto the stack.
+        """
+        self.stack.append(char)
     
-    for n in number:
-        remainder_stack.pushCharacter(n)
+    def popCharacter(self):
+        """
+        Pops a character from the stack.
+
+        Returns:
+        - char: The character popped from the stack.
+        """
+        char = self.stack.pop() if self.stack else None
+        return char
+    
+def waiter(number, q):
+    """
+    Performs the waiter algorithm.
+
+    Parameters:
+    - number (list): The list of integers to be processed.
+    - q (int): The number of iterations.
+
+    Returns:
+    - list: The list of integers after processing.
+    """
+    prime = 2
+    answers = []
+    working_stack = Stack()
+    for num in number:
+            working_stack.pushCharacter(num)
 
     for i in range(q):
-        indices_to_pop = []
-    
-        for n in range(len(remainder_stack.stack)):
-            element = remainder_stack.stack[-(n+1)]
-            if element % ith_prime == 0:
-                answers.append(element)
-                indices_to_pop.append(-(n+1))
 
+        divisible_stack = Stack()
+        non_divisible_stack = Stack()
 
-        print(indices_to_pop)
+        for j in range(len(working_stack.stack)):
+            x = working_stack.popCharacter()
+            if x % prime == 0:
+                divisible_stack.pushCharacter(x)
+            else:
+                non_divisible_stack.pushCharacter(x)
 
-        for j in reversed(indices_to_pop): 
-            remainder_stack.stack.pop(j)
-        print(remainder_stack.stack)
+        for k in range(len(divisible_stack.stack)):
+            answers.append(divisible_stack.popCharacter())
+        
+        working_stack.stack = non_divisible_stack.stack
 
+        prime = next_prime(prime)
 
-        ith_prime = next_prime(ith_prime)
-    
-    while len(remainder_stack.stack) > 0:
-        answers.append(remainder_stack.stack[0])
-        remainder_stack.stack.pop(0)
+    while len(working_stack.stack) > 0:
+        answers.append(working_stack.popCharacter())
 
-    print("Answers"+str(answers))
-    
     return answers
-       
+
 if __name__ == '__main__':
 
     first_multiple_input = input().rstrip().split()
@@ -97,7 +113,6 @@ if __name__ == '__main__':
     result = waiter(number, q)
 
     print(result)
-    # print('\n'.join(map(str, result)))
 
 # Sample Input:
 # 5 1

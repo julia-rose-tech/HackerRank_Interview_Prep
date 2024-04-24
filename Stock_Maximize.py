@@ -8,7 +8,7 @@ import sys
 
 #
 # Complete the 'stockmax' function below.
-#
+
 # The function is expected to return a LONG_INTEGER.
 # The function accepts INTEGER_ARRAY prices as parameter.
 #
